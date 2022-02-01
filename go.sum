@@ -1,0 +1,8 @@
+github.com/kermieisinthehouse/systray v1.2.3 h1:tawLahcam/Ccs/F2n6EOQo8qJnSTD2hLzOYqTGsUsbA=
+github.com/kermieisinthehouse/systray v1.2.3/go.mod h1:axh6C/jNuSyC0QGtidZJURc9h+h41HNoMySoLVrhVR4=
+github.com/sixdouglas/suncalc v0.0.0-20210131155613-475bb71c60c4 h1:bOMqPNYguS4t9tLAIuDTRx7nIW1maiXX+ZIt8Bl79ss=
+github.com/sixdouglas/suncalc v0.0.0-20210131155613-475bb71c60c4/go.mod h1:ctXSBgptEtL2uJFx2AFA4YkqSbkji1RL5H3u/CX3C7w=
+github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966 h1:JIAuq3EEf9cgbU6AtGPK4CTG3Zf6CKMNqf0MHTggAUA=
+github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966/go.mod h1:sUM3LWHvSMaG192sy56D9F7CNvL7jUJVXoqM1QKLnog=
+golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e h1:fLOSk5Q00efkSvAm+4xcoXD+RRmLmmulPn5I3Y9F2EM=
+golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=

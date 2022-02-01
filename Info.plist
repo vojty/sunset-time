@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>LSUIElement</key>
+    <true/>
+
+    <key>CFBundleDisplayName</key>
+    <string>Sunset Time</string>
+    
+    <key>CFBundleExecutable</key>
+    <string>sunset-time</string>
+    
+    <key>CFBundleIconFile</key>
+    <string>icon.icns</string>
+
+    <key>CFBundleIdentifier</key>
+    <string>com.vojty.sunsettime</string>
+    
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+
+    <key>CFBundleName</key>
+    <string>SunsetTimeApp</string>
+
+    <key>CFBundleShortVersionString</key>
+    <string>0.0.1</string>
+
+    <key>CFBundleVersion</key>
+    <string>0.0.1</string>
+
+    <key>LSApplicationCategoryType</key>
+    <string>public.app-category.utilities</string>
+
+    <key>NSQuitAlwaysKeepsWindows</key>
+    <false/>
+
+    <key>NSRequiresAquaSystemAppearance</key>
+    <false/>
+
+    <key>NSSupportsAutomaticGraphicsSwitching</key>
+    <true/>
+  </dict>
+</plist>
