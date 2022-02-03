@@ -1,3 +1,5 @@
+github.com/BurntSushi/toml v1.0.0 h1:dtDWrepsVPfW9H/4y7dDgFc2MBUSeJhlaDtK13CxFlU=
+github.com/BurntSushi/toml v1.0.0/go.mod h1:CxXYINrC8qIiEnFrOxCa7Jy5BFHlXnUU2pbicEuybxQ=
 github.com/kermieisinthehouse/systray v1.2.3 h1:tawLahcam/Ccs/F2n6EOQo8qJnSTD2hLzOYqTGsUsbA=
 github.com/kermieisinthehouse/systray v1.2.3/go.mod h1:axh6C/jNuSyC0QGtidZJURc9h+h41HNoMySoLVrhVR4=
 github.com/sixdouglas/suncalc v0.0.0-20210131155613-475bb71c60c4 h1:bOMqPNYguS4t9tLAIuDTRx7nIW1maiXX+ZIt8Bl79ss=

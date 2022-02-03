@@ -2,23 +2,48 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"path/filepath"
 	"time"
 
+	"github.com/BurntSushi/toml"
 	"github.com/kermieisinthehouse/systray"
 	"github.com/sixdouglas/suncalc"
 	"github.com/skratchdot/open-golang/open"
 )
 
-var latitude = 50.073658
-var longitude = 14.41854
+type Config struct {
+	Latitude  float64
+	Longitude float64
+}
+
+// Prague
+var defaultConfig = Config{
+	Latitude:  50.073658,
+	Longitude: 14.41854,
+}
 
 var icons = map[suncalc.DayTimeName][]byte{
 	suncalc.Sunrise: sunriseIcon,
 	suncalc.Sunset:  sunsetIcon,
 }
 
-func getTimes(timestamp time.Time, latitude float64, longitude float64) map[suncalc.DayTimeName]suncalc.DayTime {
-	times := suncalc.GetTimes(timestamp, latitude, longitude)
+func getConfig() Config {
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		return defaultConfig
+	}
+	configPath := filepath.FromSlash(homeDir + "/.sunset-time.toml")
+
+	var loaded Config
+	if _, err := toml.DecodeFile(configPath, &loaded); err != nil {
+		return defaultConfig
+	}
+	return loaded
+}
+
+func getTimes(timestamp time.Time, config *Config) map[suncalc.DayTimeName]suncalc.DayTime {
+	times := suncalc.GetTimes(timestamp, config.Latitude, config.Longitude)
 
 	return times
 }
@@ -28,13 +53,13 @@ type event struct {
 	name suncalc.DayTimeName
 }
 
-func getNextEvent() event {
+func getNextEvent(config *Config) event {
 	now := time.Now()
-	times := getTimes(now, latitude, longitude)
+	times := getTimes(now, config)
 
 	// today's sunset has already happened -> recompute for tomorrow
 	if times[suncalc.Sunset].Time.Sub(now) < 0 {
-		times := getTimes(now.AddDate(0, 0, 1), latitude, longitude)
+		times := getTimes(now.AddDate(0, 0, 1), config)
 		return event{time: times[suncalc.Sunrise].Time, name: suncalc.Sunrise}
 	}
 
@@ -45,29 +70,30 @@ func formatTime(t time.Time) string {
 	return fmt.Sprintf("%02d:%02d", t.Hour(), t.Minute())
 }
 
-func updateTray() {
-	event := getNextEvent()
+func updateTray(config *Config) {
+	event := getNextEvent(config)
 	systray.SetTemplateIcon(icons[event.name], icons[event.name])
 	systray.SetTitle(formatTime(event.time))
 	systray.SetTooltip(fmt.Sprintf("Next %s @ %s", event.name, formatTime(event.time)))
 }
 
-func updateMenuDayItem(dateItem *systray.MenuItem, timesItem *systray.MenuItem, time time.Time) {
+func updateMenuDayItem(config *Config, dateItem *systray.MenuItem, timesItem *systray.MenuItem, time time.Time) {
 	dateItem.SetTitle(fmt.Sprintf("%02d.%02d.%d", time.Day(), time.Month(), time.Year()))
 	dateItem.Disable()
 
-	times := getTimes(time, latitude, longitude)
+	times := getTimes(time, config)
 	timesItem.SetTitle(fmt.Sprintf("↗ %s     ↘ %s", formatTime(times[suncalc.Sunrise].Time), formatTime(times[suncalc.Sunset].Time)))
 	timesItem.Disable()
 }
 
-func updateMenu(mTodayDate *systray.MenuItem, mTodayTimes *systray.MenuItem, mTomorrowDate *systray.MenuItem, mTomorrowTimes *systray.MenuItem) {
-	updateMenuDayItem(mTodayDate, mTodayTimes, time.Now())
-	updateMenuDayItem(mTomorrowDate, mTomorrowTimes, time.Now().AddDate(0, 0, 1))
+func updateMenu(config *Config, mTodayDate *systray.MenuItem, mTodayTimes *systray.MenuItem, mTomorrowDate *systray.MenuItem, mTomorrowTimes *systray.MenuItem) {
+	updateMenuDayItem(config, mTodayDate, mTodayTimes, time.Now())
+	updateMenuDayItem(config, mTomorrowDate, mTomorrowTimes, time.Now().AddDate(0, 0, 1))
 }
 
 func onReady() {
-	updateTray()
+	config := getConfig()
+	updateTray(&config)
 
 	systray.AddMenuItem("Today", "Today").Disable()
 	mTodayDate := systray.AddMenuItem("", "")
@@ -79,7 +105,7 @@ func onReady() {
 	mTomorrowTimes := systray.AddMenuItem("", "")
 	systray.AddSeparator()
 
-	updateMenu(mTodayDate, mTodayTimes, mTomorrowDate, mTomorrowTimes)
+	updateMenu(&config, mTodayDate, mTodayTimes, mTomorrowDate, mTomorrowTimes)
 
 	mAbout := systray.AddMenuItem("About", "About")
 	mQuit := systray.AddMenuItem("Quit", "Quit")
@@ -105,8 +131,8 @@ func onReady() {
 		for {
 			select {
 			case <-ticker.C:
-				updateTray()
-				updateMenu(mTodayDate, mTodayTimes, mTomorrowDate, mTomorrowTimes)
+				updateTray(&config)
+				updateMenu(&config, mTodayDate, mTodayTimes, mTomorrowDate, mTomorrowTimes)
 			}
 		}
 	}()

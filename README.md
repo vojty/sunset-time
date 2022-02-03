@@ -11,7 +11,19 @@
 
 A lightweight version of https://github.com/vojty/sunset-app
 
+## Setup
+
+1.  Create `.sunset-time.toml` file in your home directory
+
+```
+# ~/.sunset-time.toml
+
+latitude = 50.073658
+longitude = 14.41854
+```
+
+2. Run the app
+
 ## Work in progress 🚧
 
-- make geolocation configurable (hardcoded latitude & longitude for Prague for now)
 - add github action for an automatic release
