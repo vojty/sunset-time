@@ -12,7 +12,6 @@ const outDir = path.join(__dirname, "dist");
 
 const targets = [
   "windows/amd64",
-  "windows/386",
   "windows/arm64",
   "darwin/amd64",
   "darwin/arm64",
